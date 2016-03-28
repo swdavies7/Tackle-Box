@@ -1,5 +1,5 @@
 require './config/environment'
-require "./app/models/user"
+require "./app/models/angler"
 class ApplicationController < Sinatra::Base
 
   configure do
@@ -15,9 +15,9 @@ class ApplicationController < Sinatra::Base
 
   get "/signup" do
     if logged_in?
-      redirect "/tweets"
+      redirect "/lures"
     else
-		  erb :"/users/create_user"
+		  erb :"/anglers/create_angler"
     end
 	end
 
@@ -25,25 +25,25 @@ class ApplicationController < Sinatra::Base
     if params[:username] == "" || params[:password] == "" || params[:email] == ""
       redirect "/signup"
     else
-      user = User.create(username: params[:username], password: params[:password], email: params[:email])
-      session[:id] = user.id
-      redirect "/tweets"
+      angler = Angler.create(username: params[:username], password: params[:password], email: params[:email])
+      session[:id] = angler.id
+      redirect "/lures"
     end
   end
 
   get "/login" do
     if logged_in?
-      redirect "/tweets"
+      redirect "/lures"
     else
-		  erb :"/users/login"
+		  erb :"/anglers/login"
     end
 	end
 
   post "/login" do
-    user = User.find_by(:username => params[:username])
-    if user && user.authenticate(params[:password])
-        session[:id] = user.id
-        redirect "/tweets"
+    angler = Angler.find_by(:username => params[:username])
+    if angler && angler.authenticate(params[:password])
+        session[:id] = angler.id
+        redirect "/lures"
     else
         redirect "/login"
     end
@@ -63,86 +63,95 @@ class ApplicationController < Sinatra::Base
 			!!session[:id]
 		end
 
-		def current_user
-			User.find(session[:id])
+		def current_angler
+			Angler.find(session[:id])
 		end
 	end
 
-  get "/tweets" do
+  get "/lures" do
     if logged_in?
-      @tweets = Tweet.all
-      @current_user = current_user
-      erb :"/tweets/tweets"
+      @lures = Lure.all
+      @current_angler = current_angler
+      erb :"/lures/lures"
     else
       redirect "/login"
     end
   end
 
-  get "/users/:slug" do
-    @user = User.find_by_slug(params[:slug])
-    @tweets = @user.tweets
-    erb :"/users/tweets"
+  get "/anglers/:slug" do
+    @angler = Angler.find_by_slug(params[:slug])
+    @lures = @angler.lures
+    erb :"/anglers/lures"
   end
 
-  get "/tweets/new" do
+  get "/lures/new" do
     if logged_in?
-      erb :"/tweets/create_tweet"
+      erb :"/lures/create_lure"
     else
       redirect "/login"
     end
   end
 
-  post "/tweets/new" do
+  post "/lures/new" do
     if params[:content] == ""
-      redirect "/tweets/new"
+      redirect "/lures/new"
     else
-      @tweet = Tweet.create(content: params[:content], user_id: current_user.id)
-      redirect "/tweets/#{@tweet.id}"
+      @lure = Lure.create(content: params[:content], angler_id: current_angler.id)
+      redirect "/lures/#{@lure.id}"
     end
   end
 
-  get "/tweets/:id" do
+  get "/lures/:id" do
     if logged_in?
-      @tweet = Tweet.find_by(id: params[:id])
-      erb :"/tweets/show_tweet"
-    else
-      redirect "/login"
-    end
-  end
-
-  delete "/tweets/:id/delete" do
-    if logged_in?
-      @tweet = Tweet.find_by(id: params[:id])
-      if @tweet.user_id == current_user.id
-        @tweet.delete
-      else
-        redirect "/tweets"
-      end
-      redirect "/tweets"
-    else
-      redirect "/tweets"
-    end
-  end
-
-  get "/tweets/:id/edit" do
-    if logged_in?
-      @tweet = Tweet.find_by(id: params[:id])
-      erb :"/tweets/edit_tweet"
+      @lure = Lure.find_by(id: params[:id])
+      erb :"/lures/show_lure"
     else
       redirect "/login"
     end
   end
 
-  patch "/tweets/:id/edit" do
+  delete "/lures/:id/delete" do
     if logged_in?
-      @tweet = Tweet.find_by(id: params[:id])
-      if @tweet.user_id == current_user.id && params[:content] != ""
-        @tweet.update(content: params[:content])
-        @tweet.save
+      @lure = Lure.find_by(id: params[:id])
+      if @lure.angler_id == current_angler.id
+        @lure.delete
       else
-        redirect "/tweets/#{@tweet.id}/edit"
+        redirect "/lures"
       end
-      redirect "/tweets"
+      redirect "/lures"
+    else
+      redirect "/lures"
+    end
+  end
+
+  get "/lures/:id/edit" do
+    if logged_in?
+      @lure = Lure.find_by(id: params[:id])
+      erb :"/lures/edit_lure"
+    else
+      redirect "/login"
+    end
+  end
+  
+  post "/lures/:id/edit" do
+    if logged_in?
+      @lure = Lure.find_by(id: params[:id])
+      erb :"/lures/edit_lure"
+    else
+      redirect "/login"
+    end
+  end
+
+  patch "/lures/:id/edit" do
+    if logged_in?
+      @lure = Lure.find_by(id: params[:id])
+      if @lure.angler_id == current_angler.id && params[:content] != ""
+        @lure.update(content: params[:content])
+        @lure.save
+      else
+        redirect "/lures/#{@lure.id}/edit"
+      end
+      redirect "/lures"
     else
       redirect "/login"
     end
