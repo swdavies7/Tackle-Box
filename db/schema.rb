@@ -20,8 +20,27 @@ ActiveRecord::Schema.define(version: 20160325030049) do
   end
 
   create_table "lures", force: :cascade do |t|
-    t.string  "content"
+    t.string  "name"
     t.integer "angler_id"
+    t.integer "tackle_box_id"
+    t.string  "manufacturer"
+  end
+
+  create_table "tackle_boxes", force: :cascade do |t|
+    t.string  "name"
+    t.string  "manufacturer"
+    t.integer "angler_id"
+  end
+
+  create_table "tweets", force: :cascade do |t|
+    t.string  "content"
+    t.integer "user_id"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "username"
+    t.string "password_digest"
+    t.string "email"
   end
 
 end

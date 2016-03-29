@@ -1,0 +1,6 @@
+<p><%=@tackle_box.name%></p>
+<form method="POST" action="/tackle-boxes/<%=@tackle_box.id%>/edit">
+  <input id="hidden" type="hidden" name="_method" value="PATCH">
+  <input type="text" name="name" value="<%=@tackle_box.name%>">
+  <input type="submit" value="submit">
+</form>

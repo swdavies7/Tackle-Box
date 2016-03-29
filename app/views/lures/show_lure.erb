@@ -1,8 +1,8 @@
-<p><%=@lure.content%></p>
-<form method="POST" action="/lures/<%=@lure.id%>/delete">
+<p><%=@lure.name%></p>
+<form method="POST" action="/tackle-boxes/<%=@tackle_box.id%>/lures/<%=@lure.id%>/delete">
   <input id="hidden" type="hidden" name="_method" value="DELETE">
   <input type="submit" value="Delete Lure">
 </form>
-<form method="POST" action="/lures/<%=@lure.id%>/edit">
+<form method="POST" action="/tackle-boxes/<%=@tackle_box.id%>/lures/<%=@lure.id%>/edit">
   <input type="submit" value="Edit Lure">
 </form>

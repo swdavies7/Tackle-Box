@@ -1,7 +1,8 @@
 class Angler < ActiveRecord::Base
-  has_many :lures
+  has_many :tackle_boxes
+  has_many :lures, through: :tackle_boxes
   has_secure_password
-  
+
   def slug
     username.downcase.split.join("-")
   end

@@ -1,0 +1,17 @@
+<h1><%=@tackle_box.name%></h1>
+<%@tackle_box.lures.each do |lure|%>
+<li><a href="/tackle-boxes/<%=@tackle_box.id%>/lures/<%=lure.id%>"><%=lure.name%></a></li>
+<%end%>
+<form method="POST" action="/tackle-boxes/<%=@tackle_box.id%>/delete">
+  <input id="hidden" type="hidden" name="_method" value="DELETE">
+  <input type="submit" value="Delete Tackle Box">
+</form>
+<form method="POST" action="/tackle-boxes/<%=@tackle_box.id%>/edit">
+  <input type="submit" value="Edit Tackle Box">
+</form>
+<h3>Add a New Lure</h3>
+<form method="POST" action="/tackle-boxes/<%=@tackle_box.id%>/lures/new">
+  <h4>Name:<input type="text" id="name" name="name"></h4>
+  <h4>Manufacturer:<input type="text" id="manufacturer" name="manufacturer"></h4>
+  <input type="submit" value="Add Lure">
+</form>

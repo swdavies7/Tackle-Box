@@ -1,4 +1,4 @@
 <h1>Welcome, <%=@current_angler.username%></h1>
 <%@lures.each do |lure|%>
-  <li><%=lure.content%></li>
+  <li><%=lure.name%>, made by <%=lure.manufacturer%></li>
 <%end%>

@@ -1,4 +1,5 @@
-<form method="POST" action="/lures/new">
-  <h4>Enter Lure:<input type="text" id="content" name="content"></h4>
+<form method="POST" action="/tackle-boxes/<%=@tackle_box.id%>/lures/new">
+  <h4>Name:<input type="text" id="name" name="name"></h4>
+  <h4>Manufacturer:<input type="text" id="manufacturer" name="manufacturer"></h4>
   <input type="submit" value="submit">
 </form>

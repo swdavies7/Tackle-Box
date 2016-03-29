@@ -1,0 +1,9 @@
+<h1><%=@current_angler.username%>'s Tackle Boxes</h1>
+<%@current_angler.tackle_boxes.each do |tackle_box|%>
+<li><a href="/tackle-boxes/<%=tackle_box.id%>"><%=tackle_box.name%></a></li>
+<%end%>
+<h2>Add a New Tackle Box</h2>
+<form method="POST" action="/tackle-boxes/new">
+  <h4>Name:<input type="text" id="name" name="name"></h4>
+  <input type="submit" value="submit">
+</form>
