@@ -17,6 +17,9 @@
       <%end %>
 
     </nav>
+    <% if @error == "Please fill out the entire form and try again."%>
+    <p class="error"><%=@error%>
+    <% end %>
     <%= yield %>
   </body>
 </html>
