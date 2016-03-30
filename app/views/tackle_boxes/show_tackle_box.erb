@@ -1,6 +1,6 @@
 <h1><%=@tackle_box.name%></h1>
 <%@tackle_box.lures.each do |lure|%>
-<li><a href="/tackle-boxes/<%=@tackle_box.id%>/lures/<%=lure.id%>"><%=lure.name%></a></li>
+<li><a href="/tackle-boxes/<%=@tackle_box.id%>/lures/<%=lure.id%>">Lure Name: <%=lure.name%>, Manufacturer: <%=lure.manufacturer%></a></li>
 <%end%>
 <form method="POST" action="/tackle-boxes/<%=@tackle_box.id%>/delete">
   <input id="hidden" type="hidden" name="_method" value="DELETE">

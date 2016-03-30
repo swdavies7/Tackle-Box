@@ -4,7 +4,19 @@
   <title>Tackle Box</title>
 </head>
   <body>
-    <a href="/">Home</a> <a href="/signup">Signup</a>
+    <nav>
+      <% if logged_in? %>
+        <a href="/tackle-boxes"><%=current_angler.username%>'s Tackle Boxes</a>
+        <a href="/tackle-boxes/new">Create Tackle Box</a>
+        <a href="/lures"><%=current_angler.username%>'s Lures</a>
+        <a href="/anglers">Other Anglers</a>
+        <a href="/logout">Log Out</a>
+      <% else %>
+        <a href="/signup">Sign Up</a>
+        <a href="/login"> Login </a>
+      <%end %>
+
+    </nav>
     <%= yield %>
   </body>
 </html>

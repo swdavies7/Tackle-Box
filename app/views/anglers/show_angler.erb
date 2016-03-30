@@ -1,0 +1,7 @@
+<h1><%=@angler.username%></h1>
+<%@tackle_boxes.each do |tackle_box|%>
+  <h3><%=tackle_box.name%></h3>
+    <%tackle_box.lures.each do |lure|%>
+      <li><%=lure.name%>, made by <%=lure.manufacturer%></li>
+    <%end%>
+<%end%>

@@ -1,0 +1,4 @@
+<h1>Anglers</h1>
+<%@anglers.each do |angler|%>
+<li><a href="/anglers/<%=angler.slug%>"><%=angler.username%></a></li>
+<%end%>

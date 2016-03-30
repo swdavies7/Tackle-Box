@@ -1,4 +1,6 @@
-<p><%=@lure.name%></p>
+<h3>Lure Name: <%=@lure.name%></h3>
+  <h4>Manufacturer: <%=@lure.manufacturer%></h4> 
+<h4><a href="/tackle-boxes/<%=@tackle_box.id%>">Tackle Box: <%=@tackle_box.name%></a></h4>
 <form method="POST" action="/tackle-boxes/<%=@tackle_box.id%>/lures/<%=@lure.id%>/delete">
   <input id="hidden" type="hidden" name="_method" value="DELETE">
   <input type="submit" value="Delete Lure">

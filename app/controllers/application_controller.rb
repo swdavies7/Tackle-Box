@@ -154,21 +154,33 @@ class ApplicationController < Sinatra::Base
     end
   end
 
-  get "/tackle-boxes/:id/lures" do
+  get "/lures" do
     if logged_in?
-      @tackle_box = TackleBox.find_by(id: params[:id])
-      @lures = @tackle_box.lures
       @current_angler = current_angler
+      @lures = @current_angler.lures
       erb :"/lures/lures"
     else
       redirect "/login"
     end
   end
 
+  get "/anglers" do
+    if logged_in?
+      @anglers = Angler.all
+      erb :"/anglers/anglers"
+    else
+      redirect "/login"
+    end
+  end
+
   get "/anglers/:slug" do
-    @angler = Angler.find_by_slug(params[:slug])
-    @tackle_boxes = @angler.tackle_boxes
-    erb :"/anglers/tackle_boxes"
+    if logged_in?
+      @angler = Angler.find_by_slug(params[:slug])
+      @tackle_boxes = @angler.tackle_boxes
+      erb :"/anglers/show_angler"
+    else
+      redirect "/login"
+    end
   end
 
   get "/tackle-boxes/:id/lures/new" do
@@ -187,7 +199,7 @@ class ApplicationController < Sinatra::Base
         redirect "/tackle-boxes/#{@tackle_box.id}/lures/new"
       else
         @lure = Lure.create(name: params[:name], manufacturer: params[:manufacturer], angler_id: current_angler.id, tackle_box_id: @tackle_box.id)
-        redirect "/tackle-boxes/#{@tackle_box.id}/lures/#{@lure.id}"
+        redirect "/tackle-boxes/#{@tackle_box.id}"
       end
     else
       redirect "/login"
@@ -243,13 +255,23 @@ class ApplicationController < Sinatra::Base
     if logged_in?
       @tackle_box = TackleBox.find_by(id: params[:id])
       @lure = Lure.find_by(id: params[:lid])
-      if @lure.angler_id == @tackle_box.id && params[:name] != ""
-        @lure.update(name: params[:name])
+      if @lure.tackle_box.id == @tackle_box.id && params[:name] != ""
+        @lure.update(tackle_box_id: params[:tid], name: params[:name], manufacturer: params[:manufacturer])
         @lure.save
+        redirect "/tackle-boxes/#{@tackle_box.id}"
       else
         redirect "/tackle-boxes/#{@tackle_box.id}/lures/#{@lure.id}/edit"
       end
       redirect "/tackle-boxes/#{@tackle_box.id}/lures"
+    else
+      redirect "/login"
+    end
+  end
+
+  get "/tackle-boxes/:id/lures/:lid/move" do
+    if logged_in?
+
+      erb :"/lures/move_lure"
     else
       redirect "/login"
     end
