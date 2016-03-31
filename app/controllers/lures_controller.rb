@@ -51,11 +51,11 @@ class LuresController < ApplicationController
       if @lure.tackle_box_id == @tackle_box.id
         @lure.delete
       else
-        redirect "/tackle-boxes/#{@tackle_box.id}/lures"
+        redirect "/tackle-boxes/#{@tackle_box.id}"
       end
-      redirect "/tackle-boxes/#{@tackle_box.id}/lures"
+      redirect "/tackle-boxes/#{@tackle_box.id}"
     else
-      redirect "/tackle-boxes/#{@tackle_box.id}/lures"
+      redirect "/login"
     end
   end
 
